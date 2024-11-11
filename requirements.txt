@@ -1,0 +1,2 @@
+nicegui==2.5.0
+tortoise-orm==0.21.7
