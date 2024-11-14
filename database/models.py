@@ -1,7 +1,7 @@
 from tortoise import fields, models
 
-# Definimos la plantilla para crear usuarios
-class Card(models.Model):
+# Definimos la plantilla para crear nuevas tareas
+class Task(models.Model):
     id = fields.IntField(pk=True)
     serial = fields.CharField(max_length=128, unique=True)
     task = fields.CharField(max_length=128)
@@ -11,7 +11,8 @@ class Card(models.Model):
     date = fields.CharField(max_length=128)
     time = fields.CharField(max_length=128)
     notes = fields.CharField(max_length=128)
+    location = fields.CharField(max_length=128)
 
 # Nombre de la tabla
 class Meta:
-        table = "Cards"
+        table = "Tasks"
