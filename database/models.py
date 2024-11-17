@@ -8,8 +8,7 @@ class Task(models.Model):
     item = fields.CharField(max_length=128)
     orden = fields.CharField(max_length=128)
     contract = fields.CharField(max_length=128)
-    date = fields.CharField(max_length=128)
-    time = fields.CharField(max_length=128)
+    datetime = fields.CharField(max_length=128)
     notes = fields.CharField(max_length=128)
     location = fields.CharField(max_length=128)
 

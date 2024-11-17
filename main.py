@@ -26,8 +26,7 @@ async def run():
                 item=str(x),
                 orden=str(x),
                 contract=str(x),
-                date=str(x),
-                time=str(x),
+                datetime=str(x),
                 notes=str(x),
                 location="Próximo"
             )

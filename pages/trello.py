@@ -1,4 +1,5 @@
 from nicegui import ui
+from datetime import datetime
 import draganddrop as dnd
 from database.models import Task
 from tortoise.exceptions import DoesNotExist
@@ -42,18 +43,17 @@ def open_new_task_dialog():
         item_input = ui.input(label='Item', placeholder='start typing')
         orden_input = ui.input(label='Orden', placeholder='start typing')
         contract_input = ui.input(label='Contrato', placeholder='start typing')
-        date_input = ui.input(label='Dia', placeholder='start typing')
-        time_input = ui.input(label='Hora', placeholder='start typing')
+        datetime_input = datetime.now()
         notes_input = ui.input(label='Notas', placeholder='start typing')
-        location_input = ui.input(label='Localizacion', placeholder='start typing')
-        ui.button('Guardar', on_click=lambda: save_new_task(serial=serial_input.value, task=task_input.value, item=item_input.value, orden=orden_input.value, contract=contract_input.value, date=date_input.value, time=time_input.value, notes=notes_input.value, location=location_input.value, dialog=dialog))
+        location_input = ('Próximo')
+        ui.button('Guardar', on_click=lambda: save_new_task(serial=serial_input.value, task=task_input.value, item=item_input.value, orden=orden_input.value, contract=contract_input.value, datetime=datetime_input.value, notes=notes_input.value, location=location_input.value, dialog=dialog))
         ui.button('Cerrar', on_click=dialog.close)
         dialog.open()
 
 # Función para guardar la nueva tarea (debes implementarla según tu lógica)
-async def save_new_task(serial, task, item, orden, contract, date, time, notes, location, dialog):
+async def save_new_task(serial, task, item, orden, contract, datetime, notes, location, dialog):
     # Aquí puedes agregar la lógica para guardar la tarea en la base de datos
-    await Task.create(serial=serial, task=task, item=item, orden=orden, contract=contract, date=date, time=time, notes=notes, location=location)
+    await Task.create(serial=serial, task=task, item=item, orden=orden, contract=contract, datetime=datetime, notes=notes, location=location)
     dialog.close()
     ui.notify(f'Tarea "{serial}" creada.')
     await get_data.refresh()  # Actualizar la interfaz para mostrar la nueva tarea
@@ -65,15 +65,14 @@ def edit_task_dialog(task):
             item_input = ui.input(label='Item', placeholder='start typing', value=task.item)
             orden_input = ui.input(label='Orden', placeholder='start typing', value=task.orden)
             contract_input = ui.input(label='Contrato', placeholder='start typing', value=task.contract)
-            date_input = ui.input(label='Dia', placeholder='start typing', value=task.date)
-            time_input = ui.input(label='Hora', placeholder='start typing', value=task.time)
+            datetime_input = ui.input(label='Dia', placeholder='start typing', value=task.datetime)
             notes_input = ui.input(label='Notas', placeholder='start typing', value=task.notes)
             location_input = ui.input(label='Localizacion', placeholder='start typing', value=task.location)
             ui.button('Guardar', on_click=lambda: save_edit_task(serial=serial_input.value, task=task_input.value, item=item_input.value, orden=orden_input.value, contract=contract_input.value, date=date_input.value, time=time_input.value, notes=notes_input.value, location=location_input.value, dialog=dialog))
             ui.button('Cerrar', on_click=dialog.close)
             dialog.open()
 # Función para guardar la nueva tarea (debes implementarla según tu lógica)
-async def save_edit_task(serial, task, item, orden, contract, date, time, notes, location, dialog):
+async def save_edit_task(serial, task, item, orden, contract, datetime, notes, location, dialog):
     try:
         # Obtener la tarea existente por su serial
         existing_task = await Task.get(serial=serial)
@@ -83,8 +82,7 @@ async def save_edit_task(serial, task, item, orden, contract, date, time, notes,
         existing_task.item = item
         existing_task.orden = orden
         existing_task.contract = contract
-        existing_task.date = date
-        existing_task.time = time
+        existing_task.datetime = datetime
         existing_task.notes = notes
         existing_task.location = location
         
